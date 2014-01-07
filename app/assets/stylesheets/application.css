@@ -11,3 +11,11 @@
  *= require_self
  *= require_tree .
  */
+
+.invisible {
+  display: "none";
+}
+
+.visible {
+  display: "block";
+}

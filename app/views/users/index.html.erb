@@ -1,0 +1,55 @@
+<h1>Users Index</h1>
+
+<ol>
+  <% User.all.each do |user| %>
+    <li><%= link_to user.username, user_url(user.id) %>
+      <button class="UnfriendButton" data-id="<%= user.id%>">Cookies!</button>
+      <button class="FriendButton" data-id="<%= user.id %>">Muffins!</button>
+      <%if user.id == current_user.id%>
+      <script> $.
+      <%elsif Friendship.all.any? {|fs| fs.in_friend_id == user.id }%>
+      <script>
+      <% end %>
+      </li>
+  <% end %>
+
+  <script>
+    $( '.FriendButton' ).click(function( event ) {
+      event.preventDefault();
+      var form = $( this );
+      var button_id = $(event.target).attr("data-id")
+      var currentButton = $(event.target);
+      $.ajax({
+        type: 'POST',
+        url: '/users/' + button_id + '/friendship',
+        success: function() {
+          currentButton.parent().append("<button class=\"UnfriendButton\" data-id=" + button_id + ">Cookies!</button>");
+        },
+        failure: function() {
+          console.log(":(");
+        }
+      })
+    });
+
+  </script>
+
+  <script>
+    $( '.UnfriendButton' ).click(function( event ) {
+      event.preventDefault();
+      var form = $( this );
+      var button_id = $(event.target).attr("data-id")
+      var currentButton = $(event.target);
+      $.ajax({
+        type: 'DELETE',
+        url: '/users/' + button_id + '/friendship',
+        success: function() {
+          currentButton.parent().append("<button class=\"FriendButton\" data-id=" + button_id + ">Muffins!</button>");
+        },
+        failure: function() {
+          console.log(":(");
+        }
+      })
+    });
+
+  </script>
+</ol>

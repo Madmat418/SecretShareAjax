@@ -7,12 +7,21 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
 <% if !current_user.nil? %>
   <ul>
     <li>Logged in as: <%= current_user.username %></li>
     <li><%= button_to "Logout", session_url, :method => :delete %></li>
   </ul>
+<% end %>
+<% if flash %>
+  <% flash.each do |key, value| %>
+  <h3><%=key.capitalize%>:</h3>
+  <ul>
+    <% value.each do |message| %>
+      <li><%=message%></li>
+    <% end %>
+  </ul>
+  <% end %>
 <% end %>
 
 <%= yield %>
